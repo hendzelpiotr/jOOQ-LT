@@ -1,0 +1,2 @@
+INSERT INTO author VALUES (next value for s_author_id, 'George', 'Orwell', '1903-06-25', 'Rzeszow 312');
+INSERT INTO author VALUES (next value for s_author_id, 'Paulo', 'Coelho', '1947-08-24', 'Krakow 13');
