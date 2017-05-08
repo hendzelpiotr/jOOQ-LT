@@ -3,6 +3,7 @@ package com.pgs.soft.mapper;
 import com.pgs.soft.dto.AuthorDTO;
 import com.pgs.soft.tables.records.AuthorRecord;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -13,8 +14,10 @@ import java.util.List;
 @Mapper
 public interface AuthorMapper {
 
+    String LOCAL_DATE_FORMAT = "dd.MM.yyyy";
     AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
+    @Mapping(target = "dateOfBirth", dateFormat = LOCAL_DATE_FORMAT)
     AuthorDTO convertToDTO(AuthorRecord authorRecord);
 
     AuthorRecord convertToEntity(AuthorDTO authorDTO);

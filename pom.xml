@@ -25,9 +25,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
+        <!--To use h2 database - please uncomment the following code
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <!-- Mapper -->
         <dependency>
@@ -47,11 +53,25 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--flyway-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <!--others-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.9.0.pr2</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
         <org.mapstruct.version>1.2.0.Beta2</org.mapstruct.version>
+        <postgresql.version>42.0.0</postgresql.version>
+        <flyway.version>4.2.0</flyway.version>
     </properties>
 
     <build>
@@ -64,6 +84,35 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>flyway</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-maven-plugin</artifactId>
+                        <version>${flyway.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>migrate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <url>jdbc:postgresql:jooq-sample-db</url>
+                            <user>postgres</user>
+                            <password>admin</password>
+                            <locations>
+                                <location>filesystem:src/main/resources/db/migration</location>
+                            </locations>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>generate-source</id>
             <build>
@@ -81,24 +130,32 @@
                         </executions>
                         <dependencies>
                             <dependency>
-                                <groupId>com.h2database</groupId>
-                                <artifactId>h2</artifactId>
-                                <version>${h2.version}</version>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${postgresql.version}</version>
                             </dependency>
                         </dependencies>
                         <configuration>
                             <jdbc>
-                                <driver>org.h2.Driver</driver>
-                                <url>jdbc:h2:~/jooq-example</url>
-                                <user>sa</user>
-                                <password></password>
+                                <driver>org.postgresql.Driver</driver>
+                                <url>jdbc:postgresql:jooq-sample-db</url>
+                                <user>postgres</user>
+                                <password>admin</password>
                             </jdbc>
                             <generator>
                                 <database>
-                                    <name>org.jooq.util.h2.H2Database</name>
+                                    <name>org.jooq.util.postgres.PostgresDatabase</name>
                                     <includes>.*</includes>
                                     <excludes></excludes>
-                                    <inputSchema>PUBLIC</inputSchema>
+                                    <inputSchema>public</inputSchema>
+                                    <forcedTypes>
+                                        <forcedType>
+                                            <userType>java.time.LocalDate</userType>
+                                            <converter>com.pgs.soft.converter.LocalDateConverter</converter>
+                                            <expression>.*date_of_.*</expression>
+                                            <types>.*</types>
+                                        </forcedType>
+                                    </forcedTypes>
                                 </database>
                                 <target>
                                     <packageName>com.pgs.soft</packageName>
