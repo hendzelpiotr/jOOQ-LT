@@ -17,7 +17,7 @@ public class LocalDateConverter implements Converter<Timestamp, LocalDate> {
 
     @Override
     public Timestamp to(LocalDate u) {
-        return u == null ? null : Timestamp.valueOf(u.toString());
+        return u == null ? null : Timestamp.valueOf(u.atStartOfDay());
     }
 
     @Override

@@ -22,7 +22,7 @@ public class AuthorDTO {
     private String lastName;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(pattern="dd.MM.yyyy")
+    @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate dateOfBirth;
     private String address;
 
