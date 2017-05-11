@@ -10,6 +10,7 @@ import java.util.List;
 public interface AuthorRepository {
 
     AuthorRecord findAuthorById(Integer id);
+    List<AuthorRecord> findByFirstNameOrderByDateOfBirth(String firstName);
     List<AuthorRecord> findAll();
     AuthorRecord insertNewAuthor(AuthorRecord author);
     void deleteAuthor(Integer id);

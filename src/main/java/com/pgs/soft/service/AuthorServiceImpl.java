@@ -27,6 +27,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public List<AuthorDTO> findAuthorsByFirstNameOrderByDateOfBirth(String firstName) {
+        List<AuthorRecord> authors = authorRepository.findByFirstNameOrderByDateOfBirth(firstName);
+        return AuthorMapper.INSTANCE.convertToDTOs(authors);
+    }
+
+    @Override
     public List<AuthorDTO> findAll() {
         List<AuthorRecord> authors = authorRepository.findAll();
         return AuthorMapper.INSTANCE.convertToDTOs(authors);

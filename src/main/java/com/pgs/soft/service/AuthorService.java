@@ -10,6 +10,7 @@ import java.util.List;
 public interface AuthorService {
 
     AuthorDTO findAuthorById(Integer id);
+    List<AuthorDTO> findAuthorsByFirstNameOrderByDateOfBirth(String firstName);
     List<AuthorDTO> findAll();
     AuthorDTO updateAuthor(Integer id, AuthorDTO authorDTO);
     AuthorDTO createAuthor(AuthorDTO authorDTO);

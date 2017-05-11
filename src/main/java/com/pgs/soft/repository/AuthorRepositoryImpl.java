@@ -29,6 +29,14 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
+    public List<AuthorRecord> findByFirstNameOrderByDateOfBirth(String firstName) {
+        return dslContext.selectFrom(AUTHOR)
+                .where(AUTHOR.FIRST_NAME.likeIgnoreCase(firstName))
+                .orderBy(AUTHOR.DATE_OF_BIRTH)
+                .fetchInto(AuthorRecord.class);
+    }
+
+    @Override
     public List<AuthorRecord> findAll() {
         return dslContext.selectFrom(AUTHOR)
                 .fetchInto(AuthorRecord.class);

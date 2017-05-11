@@ -24,6 +24,18 @@ public class AuthorController {
         return ResponseEntity.ok(foundAuthor);
     }
 
+    @GetMapping
+    public ResponseEntity<List<AuthorDTO>> getAll() {
+        List<AuthorDTO> authorDTOs = authorService.findAll();
+        return ResponseEntity.ok(authorDTOs);
+    }
+
+    @GetMapping("firstNames/{firstName}")
+    public ResponseEntity<List<AuthorDTO>> getByFirstNameOrderByDateOfBirth(@PathVariable("firstName") String firstName) {
+        List<AuthorDTO> authorDTOs = authorService.findAuthorsByFirstNameOrderByDateOfBirth(firstName);
+        return ResponseEntity.ok(authorDTOs);
+    }
+
     @PostMapping
     public ResponseEntity<AuthorDTO> createNew(@RequestBody AuthorDTO authorDTO) {
         AuthorDTO createdAuthor = authorService.createAuthor(authorDTO);
@@ -34,12 +46,6 @@ public class AuthorController {
     public ResponseEntity<AuthorDTO> update(@PathVariable("id") Integer id, @RequestBody AuthorDTO authorDTO) {
         AuthorDTO updatedAuthor = authorService.updateAuthor(id, authorDTO);
         return ResponseEntity.ok(updatedAuthor);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<AuthorDTO>> getAll() {
-        List<AuthorDTO> authorDTOs = authorService.findAll();
-        return ResponseEntity.ok(authorDTOs);
     }
 
     @DeleteMapping("{id}")
