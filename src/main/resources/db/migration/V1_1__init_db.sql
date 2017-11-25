@@ -1,3 +1,6 @@
+--CREATE ROLE ltuser WITH LOGIN PASSWORD 'admin123'
+--create database "lt_db" owner "ltuser" encoding 'UTF8' template template0;
+
 CREATE TABLE author (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(50),

@@ -101,9 +101,9 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <url>jdbc:postgresql:jooq-sample-db</url>
-                            <user>postgres</user>
-                            <password>admin</password>
+                            <url>jdbc:postgresql:lt_db</url>
+                            <user>ltuser</user>
+                            <password>admin123</password>
                             <locations>
                                 <location>filesystem:src/main/resources/db/migration</location>
                             </locations>
@@ -138,9 +138,9 @@
                         <configuration>
                             <jdbc>
                                 <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql:jooq-sample-db</url>
-                                <user>postgres</user>
-                                <password>admin</password>
+                                <url>jdbc:postgresql:lt_db</url>
+                                <user>ltuser</user>
+                                <password>admin123</password>
                             </jdbc>
                             <generator>
                                 <database>
