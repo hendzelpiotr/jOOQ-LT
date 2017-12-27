@@ -1,7 +1,7 @@
-package com.pgs.soft.controller;
+package com.jooq.example.controller;
 
-import com.pgs.soft.dto.AuthorDTO;
-import com.pgs.soft.service.AuthorService;
+import com.jooq.example.dto.AuthorDTO;
+import com.jooq.example.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by phendzel on 5/5/2017.
  */
 @RestController
-@RequestMapping("api/authors")
+@RequestMapping("authors")
 public class AuthorController {
 
     @Autowired

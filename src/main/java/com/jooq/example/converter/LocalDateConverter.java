@@ -1,4 +1,4 @@
-package com.pgs.soft.converter;
+package com.jooq.example.converter;
 
 import org.jooq.Converter;
 

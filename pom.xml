@@ -11,8 +11,27 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
     </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <postgresql.version>42.0.0</postgresql.version>
+        <flyway.version>4.2.0</flyway.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>1.5.9.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring -->
@@ -20,21 +39,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <!-- Database -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
-        <!--To use h2 database - please uncomment the following code
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+
         <!-- Mapper -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -47,18 +63,21 @@
             <version>${org.mapstruct.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--flyway-->
+
+        <!--Flyway-->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
         </dependency>
+
         <!--others-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -66,14 +85,6 @@
             <version>2.9.0.pr2</version>
         </dependency>
     </dependencies>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <org.mapstruct.version>1.2.0.Beta2</org.mapstruct.version>
-        <postgresql.version>42.0.0</postgresql.version>
-        <flyway.version>4.2.0</flyway.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -84,35 +95,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>flyway</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.flywaydb</groupId>
-                        <artifactId>flyway-maven-plugin</artifactId>
-                        <version>${flyway.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>migrate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <url>jdbc:postgresql:lt_db</url>
-                            <user>ltuser</user>
-                            <password>admin123</password>
-                            <locations>
-                                <location>filesystem:src/main/resources/db/migration</location>
-                            </locations>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <profile>
             <id>generate-source</id>
             <build>
@@ -151,14 +133,14 @@
                                     <forcedTypes>
                                         <forcedType>
                                             <userType>java.time.LocalDate</userType>
-                                            <converter>com.pgs.soft.converter.LocalDateConverter</converter>
+                                            <converter>com.jooq.example.converter.LocalDateConverter</converter>
                                             <expression>.*date_of_.*</expression>
                                             <types>.*</types>
                                         </forcedType>
                                     </forcedTypes>
                                 </database>
                                 <target>
-                                    <packageName>com.pgs.soft</packageName>
+                                    <packageName>com.jooq.example</packageName>
                                     <directory>target/generated-sources/jooq</directory>
                                 </target>
                             </generator>
