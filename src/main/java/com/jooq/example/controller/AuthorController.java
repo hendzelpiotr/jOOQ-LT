@@ -1,6 +1,7 @@
 package com.jooq.example.controller;
 
 import com.jooq.example.dto.AuthorDTO;
+import com.jooq.example.repository.AuthorRepository;
 import com.jooq.example.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class AuthorController {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @GetMapping("{id}")
     public ResponseEntity<AuthorDTO> getOneById(@PathVariable("id") Integer id) {
@@ -52,6 +56,12 @@ public class AuthorController {
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         authorService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "books/{bookId}")
+    public ResponseEntity<List<AuthorDTO>> getAllBooksForSpecificAuthor(@PathVariable("bookId") Integer bookId) {
+        List<AuthorDTO> books = authorRepository.findAllAuthorsByBookId(bookId);
+        return ResponseEntity.ok(books);
     }
 
 }
